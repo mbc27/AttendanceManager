@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/attend?allowPublicKeyRetrieval=true&allowMultiQueries=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: #你的数据库账号
+    password: #你的数据库密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    time-zone: GMT+8
+
+mybatis:
+  mapperLocations: classpath:com/rabbiter/am/mapper/*.xml
+logging:
+  level:
+    com.rabbiter.am.dao: debug
+server:
+  port: 9331
+attendance:
+  on-time: '08:30'
+  off-time: '17:30'

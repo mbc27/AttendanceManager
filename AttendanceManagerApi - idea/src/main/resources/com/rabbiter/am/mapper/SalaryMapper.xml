@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.SalaryDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Salary" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="monthlySalary" property="monthlySalary" jdbcType="INTEGER" />
+    <result column="workDays" property="workDays" jdbcType="INTEGER" />
+    <result column="checkDays" property="checkDays" jdbcType="INTEGER" />
+    <result column="leaveDays" property="leaveDays" jdbcType="INTEGER" />
+    <result column="salary" property="salary" jdbcType="DECIMAL" />
+    <result column="employeeID" property="employeeID" jdbcType="VARCHAR" />
+    <result column="month" property="month" jdbcType="VARCHAR" />
+    <result column="lateTimes" property="lateTimes" jdbcType="INTEGER" />
+    <result column="leaveEarlyTimes" property="leaveEarlyTimes" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, monthlySalary, workDays, checkDays, leaveDays, salary, employeeID, month, lateTimes, leaveEarlyTimes
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from salary
+    where id = #{id}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from salary
+    where id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Salary" >
+    insert into salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="monthlySalary != null" >
+        monthlySalary,
+      </if>
+      <if test="workDays != null" >
+        workDays,
+      </if>
+      <if test="checkDays != null" >
+        checkDays,
+      </if>
+      <if test="leaveDays != null" >
+        leaveDays,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="employeeID != null" >
+        employeeID,
+      </if>
+      <if test="month != null" >
+        month,
+      </if>
+      <if test="lateTimes != null" >
+        lateTimes,
+      </if>
+      <if test="leaveEarlyTimes != null" >
+        leaveEarlyTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="monthlySalary != null" >
+        #{monthlySalary},
+      </if>
+      <if test="workDays != null" >
+        #{workDays},
+      </if>
+      <if test="checkDays != null" >
+        #{checkDays},
+      </if>
+      <if test="leaveDays != null" >
+        #{leaveDays},
+      </if>
+      <if test="salary != null" >
+        #{salary},
+      </if>
+      <if test="employeeID != null" >
+        #{employeeID},
+      </if>
+      <if test="month != null" >
+        #{month},
+      </if>
+      <if test="lateTimes != null" >
+        #{lateTimes},
+      </if>
+      <if test="leaveEarlyTimes != null" >
+        #{leaveEarlyTimes},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.rabbiter.am.entity.Salary" >
+    update salary
+    <set >
+      <if test="monthlySalary != null" >
+        monthlySalary = #{monthlySalary},
+      </if>
+      <if test="workdays != null" >
+        workDays = #{workDays},
+      </if>
+      <if test="checkDays != null" >
+        checkDays = #{checkDays},
+      </if>
+      <if test="leaveDays != null" >
+        leaveDays = #{leaveDays},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary},
+      </if>
+      <if test="employeeID != null" >
+        employeeID = #{employeeID},
+      </if>
+      <if test="month != null" >
+        month = #{month},
+      </if>
+      <if test="lateTimes != null" >
+        lateTimes = #{lateTimes},
+      </if>
+      <if test="leaveEarlyTimes != null" >
+        leaveEarlyTimes = #{leaveEarlyTimes},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="findByNumberAndMonth" resultMap="BaseResultMap" parameterType="com.rabbiter.am.entity.Check" >
+    select
+    <include refid="Base_Column_List" />
+    from salary
+    where employeeID = #{employeeID} and month = #{month}
+  </select>
+</mapper>

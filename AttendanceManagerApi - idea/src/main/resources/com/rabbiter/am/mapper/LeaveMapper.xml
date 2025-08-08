@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.LeaveDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Leave" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="beginTime" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="applyNumber" property="applyNumber" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="VARCHAR" />
+    <result column="typeID" property="typeID" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="approvalID" property="approvalID" jdbcType="VARCHAR" />
+    <result column="taskTypeID" property="taskTypeID" jdbcType="VARCHAR" />
+    <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.id, a.beginTime, a.endTime, a.reason, a.applyNumber, a.duration, a.typeID, a.status, a.approvalID,a.taskTypeID,a.applyTime
+  </sql>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from leave1 a
+    where a.id = #{id}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from leave1 a
+    where a.id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Leave" >
+    insert into leave1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="beginTime != null" >
+        beginTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="applyNumber != null" >
+        applyNumber,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="typeID != null" >
+        typeID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="approvalID != null" >
+        approvalID,
+      </if>
+      <if test="taskTypeID != null" >
+        taskTypeID,
+      </if>
+      <if test="applyTime != null" >
+        applyTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        #{endTime},
+      </if>
+      <if test="reason != null" >
+        #{reason},
+      </if>
+      <if test="applyNumber != null" >
+        #{applyNumber},
+      </if>
+      <if test="duration != null" >
+        #{duration},
+      </if>
+      <if test="typeID != null" >
+        #{typeID},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="approvalID != null" >
+        #{approvalID},
+      </if>
+      <if test="taskTypeID != null" >
+        #{taskTypeID},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.rabbiter.am.entity.Leave" >
+    update leave1
+    <set >
+      <if test="beginTime != null" >
+        beginTime = #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason},
+      </if>
+      <if test="applyNumber != null" >
+        applyNumber = #{applyNumber},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration},
+      </if>
+      <if test="typeID != null" >
+        typeID = #{typeID},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="approvalID != null" >
+        approvalID = #{approvalID},
+      </if>
+      <if test="taskTypeID != null" >
+        taskTypeID = #{taskTypeID},
+      </if>
+      <if test="applyTime != null" >
+        applyTime = #{applyTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="findByEmployeeNumber" parameterType="java.lang.String" resultType="com.rabbiter.am.entity.Leave">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from leavetype b where a.typeID = b.id) as typeName
+    from leave1 a
+    where a.applyNumber = #{number}
+    order by a.applyTime desc
+  </select>
+</mapper>

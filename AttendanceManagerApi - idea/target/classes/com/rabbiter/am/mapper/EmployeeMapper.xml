@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.EmployeeDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Employee" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="departmentID" property="departmentID" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="entryDate" property="entryDate" jdbcType="DATE" />
+    <result column="IDNumber" property="idNumber" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="marriage" property="marriage" jdbcType="VARCHAR" />
+    <result column="workStatus" property="workStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.id, a.employeeNumber as number, a.employeeName as name, a.sex, a.birthday, a.departmentID, a.employeePositionID as position, a.employeeType as type, a.phone, a.address,
+    a.password, a.entryDate,a.IDNumber as idNumber,a.education,a.marriage,a.workStatus
+  </sql>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee a
+    where id = #{id}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from employee
+    where id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Employee" >
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="number != null" >
+        employeeNumber,
+      </if>
+      <if test="name != null" >
+        employeeName,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="birthday != null and birthday != ''" >
+        birthday,
+      </if>
+      <if test="departmentID != null" >
+        departmentID,
+      </if>
+      <if test="position != null" >
+        employeePositionID,
+      </if>
+      <if test="employeeType != null" >
+        employeeType,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="entryDate != null and entryDate != ''" >
+        entryDate,
+      </if>
+      <if test="idNumber != null" >
+        IDNumber,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="marriage != null" >
+        marriage,
+      </if>
+      <if test="workStatus != null" >
+        workStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="number != null" >
+        #{number},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="sex != null" >
+        #{sex},
+      </if>
+      <if test="birthday != null and birthday !=''" >
+        #{birthday},
+      </if>
+      <if test="departmentID != null" >
+        #{departmentID},
+      </if>
+      <if test="position != null" >
+        #{position},
+      </if>
+      <if test="employeeType != null" >
+        #{employeeType},
+      </if>
+      <if test="phone != null" >
+        #{phone},
+      </if>
+      <if test="address != null" >
+        #{address},
+      </if>
+      <if test="password != null" >
+        #{password},
+      </if>
+      <if test="entryDate != null and entryDate != ''" >
+        #{entryDate},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber},
+      </if>
+      <if test="education != null" >
+        #{education},
+      </if>
+      <if test="marriage != null" >
+        #{marriage},
+      </if>
+      <if test="workStatus != null" >
+        #{workStatus},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.rabbiter.am.entity.Employee" >
+    update employee
+    <set >
+      <if test="number != null" >
+        employeeNumber = #{number},
+      </if>
+      <if test="name != null" >
+        employeeName = #{name},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex},
+      </if>
+      <if test="birthday != null and birthday !=''" >
+        birthday = #{birthday},
+      </if>
+      <if test="departmentID != null" >
+        departmentID = #{departmentID},
+      </if>
+      <if test="position != null" >
+        employeePositionID = #{position},
+      </if>
+      <if test="employeeType != null" >
+        employeeType = #{employeeType},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone},
+      </if>
+      <if test="address != null" >
+        address = #{address},
+      </if>
+      <if test="password != null" >
+        password = #{password},
+      </if>
+      <if test="entryDate != null and entryDate != ''" >
+        entryDate = #{entryDate},
+      </if>
+      <if test="idNumber != null" >
+        IDNumber = #{idNumber},
+      </if>
+      <if test="education != null" >
+        education = #{education},
+      </if>
+      <if test="marriage != null" >
+        marriage = #{marriage},
+      </if>
+      <if test="workStatus != null" >
+        workStatus = #{workStatus},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="getAll" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from department b where a.departmentID = b.id) as departmentName
+    ,(select name from employeetype c where a.employeeType = c.id) as type
+    ,(select name from position d where a.employeePositionID = d.id) as positionName
+    from employee a
+  </select>
+
+  <select id="findByName" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from department b where a.departmentID = b.id) as departmentName
+    ,(select name from employeetype c where a.employeeType = c.id) as type
+    ,(select name from position d where a.employeePositionID = d.id) as positionName
+    from employee a
+    where name like '%${name}%'
+  </select>
+
+  <select id="findByDepartmentID" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from department b where a.departmentID = b.id) as departmentName
+    ,(select name from employeetype c where a.employeeType = c.id) as type
+    ,(select name from position d where a.employeePositionID = d.id) as positionName
+    from employee a
+    where departmentID = #{departmentID}
+  </select>
+
+  <select id="findByNumber" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where employeeNumber = #{number}
+  </select>
+
+  <select id="findByPassword" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where password = #{password}
+  </select>
+
+  <select id="findByNameAndDepartment" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from department b where a.departmentID = b.id) as departmentName
+    ,(select name from employeetype c where a.employeeType = c.id) as type
+    ,(select name from position d where a.employeePositionID = d.id) as positionName
+    from employee a
+    where 1=1
+    <if test="name != null and name != ''" >
+      and employeeName like '%${name}%'
+    </if>
+    <if test="departmentID != null and departmentID != ''" >
+      and departmentID = #{departmentID}
+    </if>
+  </select>
+
+  <select id="getMinister" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where a.departmentID = #{departmentID} and a.employeeType = '2'
+  </select>
+
+  <select id="getBoss" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where a.employeeType = '3'
+    order by a.id
+    limit 1
+  </select>
+
+  <select id="getEducation" resultType="com.rabbiter.am.entity.Chart">
+    SELECT
+    education as item,count(education) as count,format(count(education)/(SELECT count(*) FROM employee),2) as percent
+    FROM employee
+    GROUP BY education
+  </select>
+
+  <select id="findByPositionID" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where employeePositionID = #{positionID}
+  </select>
+
+  <select id="getAge" resultType="com.rabbiter.am.entity.Chart">
+    select '18-24岁' as type, count(*) as 'value',
+    format(count(*) /
+    (select count(*) from employee),2) as percent
+    from employee
+    where (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) > 17
+    and (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) &lt; 25
+
+    union
+
+    select '25-29岁' as type, count(*) as 'value',
+    format(count(*) /
+    (select count(*) from employee),2) as percent
+    from employee
+    where (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) > 24
+    and (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) &lt; 30
+
+    union
+
+    select '30-39岁' as type, count(*) as 'value',
+    format(count(*) /
+    (select count(*) from employee),2) as percent
+    from employee
+    where (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) > 29
+    and (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) &lt; 40
+
+    union
+
+    select '40-49岁' as type, count(*) as 'value',
+    format(count(*) /
+    (select count(*) from employee),2) as percent
+    from employee
+    where (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) > 39
+    and (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) &lt; 50
+
+    union
+
+    select '50岁以上' as type, count(*) as 'value',
+    format(count(*) /
+    (select count(*) from employee),2) as percent
+    from employee
+    where (date_format(curdate(),'%Y')-date_format(birthday,'%Y')) > 50
+  </select>
+
+  <select id="getNew" resultType="com.rabbiter.am.entity.Chart">
+    select date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m') as time, count(*) as value
+    from employee
+    where DATE_FORMAT(entryDate,"%Y-%m") = date_format(DATE_SUB(curdate(), INTERVAL 0 MONTH),'%Y-%m')
+    union
+    select date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m') as time, count(*) as value
+    from employee
+    where DATE_FORMAT(entryDate,"%Y-%m") = date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m')
+    union
+    select date_format(DATE_SUB(curdate(), INTERVAL 2 MONTH),'%Y-%m') as time, count(*) as value
+    from employee
+    where DATE_FORMAT(entryDate,"%Y-%m") = date_format(DATE_SUB(curdate(), INTERVAL 2 MONTH),'%Y-%m')
+    union
+    select date_format(DATE_SUB(curdate(), INTERVAL 3 MONTH),'%Y-%m') as time, count(*) as value
+    from employee
+    where DATE_FORMAT(entryDate,"%Y-%m") = date_format(DATE_SUB(curdate(), INTERVAL 3 MONTH),'%Y-%m')
+    union
+    select date_format(DATE_SUB(curdate(), INTERVAL 4 MONTH),'%Y-%m') as time, count(*) as value
+    from employee
+    where DATE_FORMAT(entryDate,"%Y-%m") = date_format(DATE_SUB(curdate(), INTERVAL 4 MONTH),'%Y-%m')
+    union
+    select date_format(DATE_SUB(curdate(), INTERVAL 5 MONTH),'%Y-%m') as time, count(*) as value
+    from employee
+    where DATE_FORMAT(entryDate,"%Y-%m") = date_format(DATE_SUB(curdate(), INTERVAL 5 MONTH),'%Y-%m')
+  </select>
+
+  <select id="selectByDepartmentId" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where departmentID = #{departmentId}
+
+  </select>
+
+  <select id="selectByPositionId" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where employeePositionID = #{position}
+  </select>
+
+  <select id="selectByEmployeeType" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where employeeType = #{employeeType}
+  </select>
+
+  <select id="findByType" resultType="com.rabbiter.am.entity.Employee">
+    select
+    <include refid="Base_Column_List" />
+    from employee a
+    where employeeType = #{type}
+    limit 10
+  </select>
+</mapper>

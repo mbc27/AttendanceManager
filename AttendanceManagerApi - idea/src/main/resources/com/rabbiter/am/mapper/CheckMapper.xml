@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.CheckDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Check" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="employeeID" property="employeeid" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="checkOnTime" property="checkOnTime" jdbcType="TIMESTAMP" />
+    <result column="checkOffTime" property="checkOffTime" jdbcType="TIMESTAMP" />
+    <result column="checkOnStatus" property="checkOnStatus" jdbcType="VARCHAR" />
+    <result column="checkOffStatus" property="checkOffStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.id, a.employeeID, a.date, a.remarks, a.checkOnTime,a.checkOffTime,a.checkOnStatus,a.checkOffStatus
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from check1 a
+    where a.id = #{id}
+  </select>
+
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from check1 a
+    where a.id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Check" >
+    insert into check1
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="employeeID != null" >
+        employeeID,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="checkOnTime != null" >
+        checkOnTime,
+      </if>
+      <if test="checkOffTime != null" >
+        checkOffTime,
+      </if>
+      <if test="checkOnStatus != null" >
+        checkOnStatus,
+      </if>
+      <if test="checkOffStatus != null" >
+        checkOffStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="employeeID != null" >
+        #{employeeID},
+      </if>
+      <if test="date != null" >
+        #{date},
+      </if>
+      <if test="remarks != null" >
+        #{remarks},
+      </if>
+      <if test="checkOnTime != null" >
+        #{checkOnTime},
+      </if>
+      <if test="checkOffTime != null" >
+        #{checkOffTime},
+      </if>
+      <if test="checkOnStatus != null" >
+        #{checkOnStatus},
+      </if>
+      <if test="checkOffStatus != null" >
+        #{checkOffStatus},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.rabbiter.am.entity.Check" >
+    update check1
+    <set >
+      <if test="employeeID != null" >
+        employeeID = #{employeeID},
+      </if>
+      <if test="date != null" >
+        date = #{date},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks},
+      </if>
+      <if test="checkOnTime != null" >
+        checkOnTime = #{checkOnTime},
+      </if>
+      <if test="checkOffTime != null" >
+        checkOffTime = #{checkOffTime},
+      </if>
+      <if test="checkOnStatus != null" >
+        checkOnStatus = #{checkOnStatus},
+      </if>
+      <if test="checkOffStatus != null" >
+        checkOffStatus = #{checkOffStatus},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="findByNumberAndDate" parameterType="com.rabbiter.am.entity.Check" resultType="com.rabbiter.am.entity.Check">
+    select
+    <include refid="Base_Column_List" />
+    from check1 a
+    where a.employeeID = #{employeeID} and a.date = #{date}
+    limit 1
+  </select>
+
+  <select id="findByNumber" parameterType="com.rabbiter.am.entity.Check" resultType="com.rabbiter.am.entity.Check">
+    select
+    <include refid="Base_Column_List" />
+    from check1 a
+    where a.employeeID = #{number}
+  </select>
+
+  <select id="getCheckDay" parameterType="com.rabbiter.am.entity.Check" resultType="com.rabbiter.am.entity.Check">
+    select
+    <include refid="Base_Column_List" />
+    from check1 a
+    where a.employeeID = #{employeeID} and a.date like '%${date}%' and a.checkOnTime is not null
+  </select>
+
+  <select id="getLateDay" parameterType="com.rabbiter.am.entity.Check" resultType="com.rabbiter.am.entity.Check">
+    select
+    <include refid="Base_Column_List" />
+    from check1 a
+    where a.employeeID = #{employeeID} and a.date like '%${date}%' and a.checkOnStatus = '迟到'
+  </select>
+
+  <select id="getLeaveEarlyDay" parameterType="com.rabbiter.am.entity.Check" resultType="com.rabbiter.am.entity.Check">
+    select
+    <include refid="Base_Column_List" />
+    from check1 a
+    where a.employeeID = #{employeeID} and a.date like '%${date}%' and a.checkOffStatus = '早退'
+  </select>
+
+  <select id="getLeaveDay" parameterType="com.rabbiter.am.entity.Check" resultType="com.rabbiter.am.entity.Check">
+    SELECT remarks,count(remarks) as days
+    from check1
+    where employeeID = #{employeeID} and date like '%${date}%'
+    GROUP BY remarks
+  </select>
+</mapper>

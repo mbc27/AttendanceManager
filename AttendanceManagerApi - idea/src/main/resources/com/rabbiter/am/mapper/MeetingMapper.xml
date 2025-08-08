@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.MeetingDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Meeting" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="roomID" property="roomID" jdbcType="VARCHAR" />
+    <result column="participants" property="participants" jdbcType="VARCHAR" />
+    <result column="host" property="host" jdbcType="VARCHAR" />
+    <result column="details" property="details" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="publisherNumber" property="publisherNumber" jdbcType="VARCHAR" />
+    <result column="publishTime" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="beginDate" property="beginDate" jdbcType="DATE" />
+    <result column="endDate" property="endDate" jdbcType="DATE" />
+    <result column="beginTime" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.id, a.title, a.time, a.roomID, a.participants, a.host, a.details, a.type, a.publisherNumber,a.publishTime,a.beginDate,a.endDate,a.beginTime,a.endTime
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from meeting
+    where id = #{id}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from meeting
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Meeting" >
+    insert into meeting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="roomID != null" >
+        roomID,
+      </if>
+      <if test="participants != null" >
+        participants,
+      </if>
+      <if test="host != null" >
+        host,
+      </if>
+      <if test="details != null" >
+        details,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="publisherNumber != null" >
+        publisherNumber,
+      </if>
+      <if test="publishTime != null" >
+        publishTime,
+      </if>
+      <if test="beginDate != null" >
+        beginDate,
+      </if>
+      <if test="endDate != null" >
+        endDate,
+      </if>
+      <if test="beginTime != null" >
+        beginTime,
+      </if>
+      <if test="endTime != null" >
+        endTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="title != null" >
+        #{title},
+      </if>
+      <if test="time != null" >
+        #{time},
+      </if>
+      <if test="roomID != null" >
+        #{roomID},
+      </if>
+      <if test="participants != null" >
+        #{participants},
+      </if>
+      <if test="host != null" >
+        #{host},
+      </if>
+      <if test="details != null" >
+        #{details},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="publisherNumber != null" >
+        #{publisherNumber},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate},
+      </if>
+      <if test="endDate != null" >
+        #{endDate},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        #{endTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.rabbiter.am.entity.Meeting" >
+    update meeting
+    <set >
+      <if test="title != null" >
+        title = #{title},
+      </if>
+      <if test="time != null" >
+        time = #{time},
+      </if>
+      <if test="roomID != null" >
+        roomID = #{roomID},
+      </if>
+      <if test="participants != null" >
+        participants = #{participants},
+      </if>
+      <if test="host != null" >
+        host = #{host},
+      </if>
+      <if test="details != null" >
+        details = #{details},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="publisherNumber != null" >
+        publisherNumber = #{publisherNumber},
+      </if>
+      <if test="publishTime != null" >
+        publishTime = #{publishTime},
+      </if>
+      <if test="beginDate != null" >
+        beginDate = #{beginDate},
+      </if>
+      <if test="endDate != null" >
+        endDate = #{endDate},
+      </if>
+      <if test="beginTime != null" >
+        beginTime = #{beginTime},
+      </if>
+      <if test="endTime != null" >
+        endTime = #{endTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="getAll" resultType="com.rabbiter.am.entity.Meeting">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.publisherNumber = b.employeeNumber) as publisherName
+    from meeting a order by a.publishTime DESC
+  </select>
+
+  <select id="getAllMeeting" resultType="com.rabbiter.am.entity.Meeting">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.publisherNumber = b.employeeNumber) as publisherName
+    ,(select name from fixedassets c where a.roomID = c.id) as roomName
+    from meeting a where a.type = "1" order by a.publishTime DESC
+  </select>
+
+  <select id="getAllNotice" resultType="com.rabbiter.am.entity.Meeting">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.publisherNumber = b.employeeNumber) as publisherName
+    from meeting a where a.type = "2" order by a.publishTime DESC
+  </select>
+
+  <select id="getNotice" resultType="com.rabbiter.am.entity.Meeting">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.publisherNumber = b.employeeNumber) as publisherName
+    from meeting a where a.type = "2" order by a.publishTime DESC limit 6
+  </select>
+</mapper>

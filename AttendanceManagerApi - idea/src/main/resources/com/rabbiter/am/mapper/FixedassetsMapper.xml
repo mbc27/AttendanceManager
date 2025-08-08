@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.FixedassetsDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Fixedassets" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="typeID" property="typeID" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="employeeNumber" property="employeeNumber" jdbcType="VARCHAR" />
+    <result column="taskTypeID" property="taskTypeID" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="approvalID" property="approvalID" jdbcType="VARCHAR" />
+    <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.id, a.number, a.name, a.typeID, a.price, a.employeeNumber,a.status,a.approvalID,a.taskTypeID,a.applyTime
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fixedassets a
+    where a.id = #{id}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from fixedassets a
+    where a.id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Fixedassets" >
+    insert into fixedassets
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="typeID != null" >
+        typeID,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="employeeNumber != null" >
+        employeeNumber,
+      </if>
+      <if test="taskTypeID != null" >
+        taskTypeID,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="approvalID != null" >
+        approvalID,
+      </if>
+      <if test="applyTime != null" >
+        applyTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="number != null" >
+        #{number},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="typeID != null" >
+        #{typeID},
+      </if>
+      <if test="price != null" >
+        #{price},
+      </if>
+      <if test="employeeNumber != null" >
+        #{employeeNumber},
+      </if>
+      <if test="taskTypeID != null" >
+        #{taskTypeID},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="approvalID != null" >
+        #{approvalID},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.rabbiter.am.entity.Fixedassets" >
+    update fixedassets
+    <set >
+      <if test="number != null" >
+        number = #{number},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="typeID != null" >
+        typeID = #{typeID},
+      </if>
+      <if test="price != null" >
+        price = #{price},
+      </if>
+      <if test="employeeNumber != null" >
+        employeeNumber = #{employeeNumber},
+      </if>
+      <if test="taskTypeID != null" >
+        taskTypeID = #{taskTypeID},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="approvalID != null" >
+        approvalID = #{approvalID},
+      </if>
+      <if test="applyTime != null" >
+        applyTime = #{applyTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="getAll" resultType="com.rabbiter.am.entity.Fixedassets">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from fixedassettype b where a.typeID = b.id) as typeName
+    from fixedassets a
+  </select>
+
+  <select id="findByNumber" resultType="com.rabbiter.am.entity.Fixedassets">
+    select
+    <include refid="Base_Column_List" />
+    from fixedassets a
+    where a.number = #{number}
+  </select>
+
+  <select id="findByEmployeeNumber" parameterType="java.lang.String" resultType="com.rabbiter.am.entity.Fixedassets">
+    select
+    <include refid="Base_Column_List" />
+    ,(select name from fixedassettype b where a.typeID = b.id) as typeName
+    from fixedassets a
+    where a.employeeNumber = #{number}
+    order by a.applyTime
+  </select>
+
+  <select id="getRoomList" resultType="com.rabbiter.am.entity.Fixedassets">
+    select
+    <include refid="Base_Column_List" />
+    from fixedassets a
+    where a.typeID = '4' and a.status = '1'
+  </select>
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.PositionDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Position" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="monthlySalary" property="monthlySalary" jdbcType="INTEGER" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="departmentID" property="departmentID" jdbcType="VARCHAR" />
+    <result column="typeID" property="typeID" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, number, name, monthlySalary, quantity, departmentID, typeID
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from position
+    where id = #{id}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from position
+    where id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Position" >
+    insert into position
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="monthlySalary != null" >
+        monthlySalary,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="departmentID != null" >
+        departmentID,
+      </if>
+      <if test="typeID != null" >
+        typeID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="number != null" >
+        #{number},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="monthlySalary != null" >
+        #{monthlySalary},
+      </if>
+      <if test="quantity != null" >
+        #{quantity},
+      </if>
+      <if test="departmentID != null" >
+        #{departmentID},
+      </if>
+      <if test="typeID != null" >
+        #{typeID},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.rabbiter.am.entity.Position" >
+    update position
+    <set >
+      <if test="number != null" >
+        number = #{number},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="monthlySalary != null" >
+        monthlySalary = #{monthlySalary},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity},
+      </if>
+      <if test="departmentID != null" >
+        departmentID = #{departmentID},
+      </if>
+      <if test="typeID != null" >
+        typeID = #{typeID},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="findByNumber" resultMap="BaseResultMap">
+    select * from position
+    where number = #{number}
+  </select>
+
+  <select id="findByDepartmentID" resultMap="BaseResultMap">
+    select * from position
+    where departmentID = #{departmentID}
+  </select>
+</mapper>

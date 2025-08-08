@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbiter.am.dao.TaskDao" >
+  <resultMap id="BaseResultMap" type="com.rabbiter.am.entity.Task" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="typeID" property="typeID" jdbcType="VARCHAR" />
+    <result column="applyNumber" property="applyNumber" jdbcType="VARCHAR" />
+    <result column="approvalNumber" property="approvalNumber" jdbcType="VARCHAR" />
+    <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="approvalTime" property="approvalTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="applyID" property="applyID" jdbcType="VARCHAR" />
+    <result column="receiveNumber" property="receiveNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    a.id, a.number, a.name, a.typeID, a.applyNumber, a.approvalNumber, a.applyTime, a.approvalTime,a.status,a.applyID,a.receiveNumber
+  </sql>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from task a
+    where a.id = #{id}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from task a
+    where a.id = #{id}
+  </delete>
+
+  <insert id="insert" parameterType="com.rabbiter.am.entity.Task" >
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="typeID != null" >
+        typeID,
+      </if>
+      <if test="applyNumber != null" >
+        applyNumber,
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber,
+      </if>
+      <if test="applyTime != null" >
+        applyTime,
+      </if>
+      <if test="approvalTime != null" >
+        approvalTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="applyID != null" >
+        applyID,
+      </if>
+      <if test="receiveNumber != null" >
+        receiveNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="number != null" >
+        #{number},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="typeID != null" >
+        #{typeID},
+      </if>
+      <if test="applyNumber != null" >
+        #{applyNumber},
+      </if>
+      <if test="approvalNumber != null" >
+        #{approvalNumber},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime},
+      </if>
+      <if test="approvalTime != null" >
+        #{approvalTime},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="applyID != null" >
+        #{applyID},
+      </if>
+      <if test="receiveNumber != null" >
+        #{receiveNumber},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.rabbiter.am.entity.Task" >
+    update task
+    <set >
+      <if test="number != null" >
+        number = #{number},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="typeID != null" >
+        typeID = #{typeID},
+      </if>
+      <if test="applyNumber != null" >
+        applyNumber = #{applyNumber},
+      </if>
+      <if test="approvalNumber != null" >
+        approvalNumber = #{approvalNumber},
+      </if>
+      <if test="applyTime != null" >
+        applyTime = #{applyTime},
+      </if>
+      <if test="approvalTime != null" >
+        approvalTime = #{approvalTime},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="applyID != null" >
+        applyID = #{applyID},
+      </if>
+      <if test="receiveNumber != null" >
+        receiveNumber = #{receiveNumber},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <select id="getAllTodo" resultType="com.rabbiter.am.entity.Task">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.applyNumber = b.employeeNumber) as applyName
+    from task a 
+    where a.status = "0" 
+    <if test="receiveNumber != null and receiveNumber != ''">
+      and a.receiveNumber = #{receiveNumber}
+    </if>
+  </select>
+
+  <select id="getAllHistoric" resultType="com.rabbiter.am.entity.Task">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.applyNumber = b.employeeNumber) as applyName
+    from task a 
+    where (a.status = "1" or a.status = "2") 
+    <if test="receiveNumber != null and receiveNumber != ''">
+      and a.receiveNumber = #{receiveNumber}
+    </if>
+  </select>
+
+  <select id="findByApplyID" resultType="com.rabbiter.am.entity.Apply" parameterType="com.rabbiter.am.entity.Task">
+    select a.id, a.taskTypeID
+    <if test="type == '请假申请'">
+      ,a.beginTime, a.endTime, a.reason, a.applyNumber, a.duration, a.status, a.approvalID, a.applyTime
+      <if test="status == 1 or status == 2">
+        ,b.approvalTime
+        ,(select employeeName from employee f where b.approvalNumber = f.employeeNumber) as approvalName
+      </if>
+      ,(select employeeName from employee d where a.applyNumber = d.employeeNumber) as applyName
+      ,(select name from tasktype e where a.taskTypeID = e.id) as type
+      from leave1 a
+      <if test="status == 1 or status == 2">
+        left join task b on a.approvalID = b.id
+      </if>
+      where a.id = #{applyID}
+    </if>
+    <if test="type == '固定资产购置申请' or type == '固定资产报废申请'">
+      ,a.number, a.name, a.price, a.employeeNumber as applyNumber, a.status, a.approvalID, a.applyTime
+      <if test="status == 1 or status == 2">
+        ,b.approvalTime
+        ,(select employeeName from employee f where b.approvalNumber = f.employeeNumber) as approvalName
+      </if>
+      ,(select employeeName from employee d where a.employeeNumber = d.employeeNumber) as applyName
+      ,(select name from tasktype e where a.taskTypeID = e.id) as type
+      from fixedassets a
+      <if test="status == 1 or status == 2">
+        left join task b on a.approvalID = b.id
+      </if>
+      where a.id = #{applyID}
+    </if>
+  </select>
+
+  <select id="getAll" resultType="com.rabbiter.am.entity.Task">
+    select
+    <include refid="Base_Column_List" />
+    ,(select employeeName from employee b where a.applyNumber = b.employeeNumber) as applyName
+    ,(select name from tasktype c where a.typeID = c.id) as type
+    from task a 
+    <where>
+      <if test="receiveNumber != null and receiveNumber != ''">
+        a.receiveNumber = #{receiveNumber}
+      </if>
+    </where>
+    order by a.applyTime desc
+  </select>
+</mapper>
